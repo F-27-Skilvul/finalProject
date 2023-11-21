@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import Hamburger from "./hamburger";
 import DropdownMenu from "./dropdownMenu";
 
@@ -7,9 +8,13 @@ function Navbar() {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Logo */}
         <div className="px-4">
-          <a href="#home" className="font-bold text-lg text-primary block py-6">
+          <NavLink to="/" className="font-bold text-lg text-primary block py-6">
             Ademyst
-          </a>
+          </NavLink>
+
+          {/* <a href="#home" >
+            
+          </a> */}
         </div>
 
         {/* menubar */}
@@ -19,50 +24,51 @@ function Navbar() {
         >
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-              <a
-                href="#"
+              <NavLink
+                to="/pelajari"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0 dark:text-white md:dark:hover:text-rimary dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Pelajari
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="#"
+              <NavLink
+                to="/temukan"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0 dark:text-white md:dark:hover:text-rimary dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Temukan
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="#"
+              <NavLink
+                to="/forum"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0 dark:text-white md:dark:hover:text-primary dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Forum
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="#"
+              <NavLink
+                to="/langganan"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0 dark:text-white md:dark:hover:text-primary dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Berlangganan
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="#"
+              <NavLink
+                to="/bantuan"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:p-0 dark:text-white md:dark:hover:text-primary dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
                 Bantuan
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
 
         <Hamburger />
-      </div>\
+      </div>
+      
       <DropdownMenu />
     </nav>
   );

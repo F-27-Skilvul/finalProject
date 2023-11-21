@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import DropdownMenu from "./dropdownMenu";
 import { AppContext } from "../../context/app-provider";
+import { NavLink } from "react-router-dom";
 
 function Hamburger() {
   const { dropdownActive, setDropdownActive } = useContext(AppContext);
@@ -9,7 +10,7 @@ function Hamburger() {
     e.preventDefault();
 
     setDropdownActive(!dropdownActive);
-    
+
     console.log(dropdownActive);
   };
 
@@ -19,20 +20,20 @@ function Hamburger() {
         {/* btn login and register */}
         <div className="flex flex-row">
           <button className="p-1">
-            <a
-              href="#" //link ke /register
-              className="border-1 border-1 mb-3 rounded-xl border-primary bg-white py-3 px-6 text-base text-black transition duration-500 hover:opacity-80 hover:shadow-lg lg:mb-0 "
+            <NavLink
+              to="/daftar"
+              className="border-1 border-1 mb-3 rounded-xl border-primary bg-white py-3 px-6 text-base font-semibold text-black transition duration-500 hover:opacity-80 hover:shadow-lg lg:mb-0 "
             >
               Daftar
-            </a>
+            </NavLink>
           </button>
           <button className="p-1">
-            <a
-              href="#" //link ke /login
-              className="rounded-xl bg-primary py-3 px-6 text-base text-white transition duration-500 hover:opacity-80 hover:shadow-lg"
+            <NavLink
+              to="/login"
+              className="rounded-xl bg-primary py-3 px-6 text-base font-semibold text-white transition duration-500 hover:opacity-80 hover:shadow-lg"
             >
               Masuk
-            </a>
+            </NavLink>
           </button>
         </div>
 
