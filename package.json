@@ -1,0 +1,20 @@
+{
+  "name": "fe_ademyst",
+  "version": "1.0.0",
+  "description": "Final project kali ini, kalian akan membuat sebuah product (Website) yang sesuai dengan rancangan yang telah dibuat pada fase product development sesuai dengan challenge partner kelompok masing-masing.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/F-27-Skilvul/frontEnd-FP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/F-27-Skilvul/frontEnd-FP/issues"
+  },
+  "homepage": "https://github.com/F-27-Skilvul/frontEnd-FP#readme"
+}
