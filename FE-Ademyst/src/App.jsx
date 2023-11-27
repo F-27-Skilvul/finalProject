@@ -10,6 +10,8 @@ function App() {
             <UserProvider>
                 <Router>
                     <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route path='*' element={<NotFound />} />
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                     </Routes>
@@ -19,4 +21,4 @@ function App() {
     );
 }
 
-export default App;
+export default App
