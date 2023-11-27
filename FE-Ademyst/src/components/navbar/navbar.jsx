@@ -4,17 +4,13 @@ import DropdownMenu from "./dropdownMenu";
 
 function Navbar() {
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900 transition-all ease-in-out duration-300 z-50 fixed top-0 left-0 right-0 bg-opacity-80 backdrop-blur-10">
+    <nav className="bg-white border-gray-200 dark:bg-gray-900 transition-all ease-in-out duration-300 z-50 sticky top-0 bg-opacity-80 backdrop-blur-10">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Logo */}
         <div className="px-4">
           <NavLink to="/" className="font-bold text-lg text-primary block py-6">
             Ademyst
           </NavLink>
-
-          {/* <a href="#home" >
-            
-          </a> */}
         </div>
 
         {/* menubar */}
@@ -68,7 +64,7 @@ function Navbar() {
 
         <Hamburger />
       </div>
-      
+
       <DropdownMenu />
     </nav>
   );
