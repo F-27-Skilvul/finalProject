@@ -8,7 +8,7 @@ function DropdownMenu() {
   return (
     <div
       id="dropdown-menu"
-      className={`px-4 mb-4 ${dropdownActive ? "hidden" : ""}`}
+      className={`px-4 pb-4 ${dropdownActive ? "hidden" : ""}`}
     >
       <ul className="bg-gray-700 bg-opacity-50 border border-gray-400 rounded-xl px-3 py-2 flex flex-col gap-1">
         <li>
