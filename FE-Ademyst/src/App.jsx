@@ -10,6 +10,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/pelajari' element={<Pelajari />} />
+        <Route path='/pelajari/:title' element={<PreviewBacaan />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>
