@@ -23,7 +23,7 @@ function CardPelajari() {
                   {bacaan.title}
                 </h5>
               </NavLink>
-              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-4">
                 {bacaan.desc}
               </p>
 

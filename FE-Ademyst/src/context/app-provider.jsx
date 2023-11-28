@@ -12,7 +12,7 @@ function AppProvider({ children }) {
         id : 1,
         imgSrc : "https://iili.io/Jx3xfJj.png",
         title : "Data Analyst",
-        desc : "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
+        desc : "Temukan dasar-dasar analisis data dan menjadi seorang Data Analyst yang kompeten. Baca sumber daya ini untuk memahami alat, teknik, dan konsep dasar dalam analisis data.",
         topic : 13,
         timeOfContent : 28,
         lesson : 131,
@@ -21,11 +21,11 @@ function AppProvider({ children }) {
       {
         id : 2,
         imgSrc : "https://iili.io/Jx3xBOQ.png",
-        title : "Programmer Web Developer",
-        desc : "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
-        topic : 13,
-        timeOfContent : 28,
-        lesson : 131,
+        title : "Web Developer",
+        desc : "Pelajari langkah-langkah menuju menjadi seorang Web Developer yang kompeten. Temukan alat, teknik, dan praktik terbaik untuk merancang dan mengembangkan situs web yang menarik.",
+        topic : 17,
+        timeOfContent : 18,
+        lesson : 140,
         monthToComplete : 4,
       }
     ])

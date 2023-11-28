@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/home'
 import Pelajari from './pages/pelajari'
 import NotFound from './pages/notFound'
+import PreviewBacaan from './pages/previewBacaan'
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/pelajari' element={<Pelajari />} />
+        <Route path='/pelajari/:title' element={<PreviewBacaan />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>
