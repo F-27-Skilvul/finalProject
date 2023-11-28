@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/home'
+import Pelajari from './pages/pelajari'
 import NotFound from './pages/notFound'
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/pelajari' element={<Pelajari />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>
