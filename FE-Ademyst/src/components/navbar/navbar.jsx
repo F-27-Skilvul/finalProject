@@ -4,7 +4,7 @@ import DropdownMenu from "./dropdownMenu";
 
 function Navbar() {
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900 transition-all ease-in-out duration-300 z-50 sticky top-0 bg-opacity-80 backdrop-blur-10">
+    <nav className="bg-white border-gray-200 dark:bg-gray-900 transition-all ease-in-out duration-300 z-10 sticky top-0 bg-opacity-80 backdrop-blur-10">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         {/* Logo */}
         <div className="px-4">
