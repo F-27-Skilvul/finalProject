@@ -35,6 +35,17 @@ function AppProvider({ children }) {
     desc: "",
     imgSrc: "",
   });
+  const [users, setUsers] = useState([
+    {
+      email: "a@gmail.com",
+      password: "password",
+      name: "a",
+    },
+  ]);
+
+  const addUser = (user) => {
+    setUsers([...users, user]);
+  };
 
   return (
     <AppContext.Provider
@@ -51,6 +62,8 @@ function AppProvider({ children }) {
         setShowModal,
         bacaanInput,
         setBacaanInput,
+        users,
+        addUser,
       }}
     >
       {children}
