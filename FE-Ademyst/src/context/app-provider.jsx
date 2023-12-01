@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createContext } from "react";
 
 export const AppContext = createContext();
@@ -7,26 +7,7 @@ function AppProvider({ children }) {
   const [dropdownActive, setDropdownActive] = useState(true);
   const [isLogin, setIsLogin] = useState(true);
   const [bacaan, setBacaan] = useState([
-    {
-      id: 1,
-      imgSrc: "https://iili.io/Jx3xfJj.png",
-      title: "Data Analyst",
-      desc: "Temukan dasar-dasar analisis data dan menjadi seorang Data Analyst yang kompeten. Baca sumber daya ini untuk memahami alat, teknik, dan konsep dasar dalam analisis data.",
-      topic: 13,
-      timeOfContent: 28,
-      lesson: 131,
-      monthToComplete: 4,
-    },
-    {
-      id: 2,
-      imgSrc: "https://iili.io/Jx3xBOQ.png",
-      title: "Web Developer",
-      desc: "Pelajari langkah-langkah menuju menjadi seorang Web Developer yang kompeten. Temukan alat, teknik, dan praktik terbaik untuk merancang dan mengembangkan situs web yang menarik.",
-      topic: 17,
-      timeOfContent: 18,
-      lesson: 140,
-      monthToComplete: 4,
-    },
+    // ... your existing state initialization
   ]);
   const [roleLogin, setRoleLogin] = useState("admin");
   const [showModal, setShowModal] = useState(false);
@@ -35,17 +16,56 @@ function AppProvider({ children }) {
     desc: "",
     imgSrc: "",
   });
-  const [users, setUsers] = useState([
-    {
-      email: "a@gmail.com",
-      password: "password",
-      name: "a",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+  const [email, setEmail] = useState(""); // Assuming you have email state
+  const [password, setPassword] = useState(""); // Assuming you have password state
+  const [errorNotification, setErrorNotification] = useState(false); // Define errorNotification state
 
   const addUser = (user) => {
     setUsers([...users, user]);
   };
+
+  const handleLogin = async (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    try {
+      const response = await fetch('https://ademystapi.adaptable.app/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        // Periksa apakah login berhasil berdasarkan respons dari API
+        if (data.success) {
+          // Set state atau konteks yang menandakan pengguna telah login
+          setIsLogin(true);
+          // Simpan informasi pengguna di konteks
+          setLoggedInUser(data.user); // Sesuaikan ini dengan struktur data yang diberikan oleh API
+          navigate("/dashboard");
+        } else {
+          // Tampilkan pesan kesalahan jika login gagal
+          setErrorNotification(true);
+        }
+      } else {
+        // Tangani kesalahan server
+        setErrorNotification(true);
+      }
+    } catch (error) {
+      console.error("Kesalahan selama login:", error);
+      setErrorNotification(true);
+    }
+  };
+
+  useEffect(() => {
+    handleLogin();
+  }, [email, password]);
 
   return (
     <AppContext.Provider
@@ -64,6 +84,7 @@ function AppProvider({ children }) {
         setBacaanInput,
         users,
         addUser,
+        errorNotification, // Include errorNotification in the context
       }}
     >
       {children}

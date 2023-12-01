@@ -5,25 +5,47 @@ import Navbar from "../components/navbar/navbar";
 import Footer from "../components/footer/footer";
 
 const Login = () => {
-  const { users } = useContext(AppContext); //Gunakan users dari AppContext
-  console.log(users);
+  const { users, setIsLogin, setLoggedInUser } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errorNotification, setErrorNotification] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    console.log(users);
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Cari pengguna dengan email yang cocok
-    const user = users.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (user) {
-      navigate("/dashboard"); // Jika pengguna ditemukan, navigasi ke Dashboard
-    } else {
-      // Tampilkan error atau lakukan sesuatu jika login gagal
-      alert("Invalid email or password");
+    setErrorNotification(false);
+    setLoading(true);
+
+    try {
+      const response = await fetch('https://ademystapi.adaptable.app/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer your-access-token',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data.success) {
+          setIsLogin(true);
+          setLoggedInUser(data.user);
+          navigate("/dashboard");
+        } else {
+          setErrorNotification("Invalid email or password.");
+        }
+      } else {
+        setErrorNotification("Server error. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setErrorNotification("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
   return (
