@@ -1,9 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AppContext } from "../../context/app-provider";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 function CardPelajari() {
   const { bacaan, setBacaan } = useContext(AppContext);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    getBacaan();
+  }, []);
+
+  const getBacaan = async (e) => {
+    const { data } = await axios.get(
+      "https://ademystapi.adaptable.app/courses",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setBacaan(data);
+  };
 
   return (
     <div className="flex flex-wrap">
@@ -24,18 +42,18 @@ function CardPelajari() {
                 </h5>
               </NavLink>
               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-4">
-                {bacaan.desc}
+                {bacaan.description}
               </p>
 
               <div className="mt-3 flex flex-wrap gap-3">
                 <div className="flex items-center gap-2 text-gray-700 dark:text-gray-400">
                   <i className="fa-solid fa-book"></i>
-                  <p className="text-xs"> {bacaan.topic} Topics</p>
+                  <p className="text-xs"> {bacaan.totalTopics} Topics</p>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700 dark:text-gray-400">
                   <i className="fa-solid fa-clock"></i>
                   <p className="text-xs">
-                    {bacaan.timeOfContent} hours of content
+                    {bacaan.totalTime} hours of content
                   </p>
                 </div>
                 <div className="flex items-center gap-2 text-gray-700 dark:text-gray-400">

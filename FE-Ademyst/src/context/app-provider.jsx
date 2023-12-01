@@ -5,11 +5,11 @@ export const AppContext = createContext();
 
 function AppProvider({ children }) {
   const [dropdownActive, setDropdownActive] = useState(true);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [bacaan, setBacaan] = useState([
     // ... your existing state initialization
   ]);
-  const [roleLogin, setRoleLogin] = useState("admin");
+  const [roleLogin, setRoleLogin] = useState("user");
   const [showModal, setShowModal] = useState(false);
   const [bacaanInput, setBacaanInput] = useState({
     title: "",
