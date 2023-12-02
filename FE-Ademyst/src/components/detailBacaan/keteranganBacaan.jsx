@@ -1,7 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
+import { useParams } from "react-router-dom";
 import IsiListComponent from "./listBacaan";
+import { AppContext } from "../../context/app-provider";
 
 const KeteranganPreviewComponent = () => {
+  const { bacaan, setBacaan } = useContext(AppContext);
+  const { title } = useParams();
+
+  const pilihBacaan = bacaan.find(
+    (bacaan) => decodeURIComponent(bacaan.title).replace(/ /g, "_") === title
+  );
+
   return (
     <div className="container max-w-screen-xl md:flex md:flex-row justify-start">
       <div id="left" className="flex flex-col md:w-1/3">
@@ -35,7 +44,7 @@ const KeteranganPreviewComponent = () => {
                   <i className="fa-solid fa-book"></i>
                 </th>
                 <td className="px-6">
-                  <p className="font-medium">13 Topik</p>
+                  <p className="font-medium">{pilihBacaan.totalTopics} Topik</p>
                 </td>
               </tr>
               <tr>
@@ -46,10 +55,10 @@ const KeteranganPreviewComponent = () => {
                   <i className="fa-solid fa-clock"></i>
                 </th>
                 <td className="px-6">
-                  <p className="font-medium">Konten 28 Jam </p>
+                  <p className="font-medium">Konten {pilihBacaan.totalTime} Jam </p>
                 </td>
               </tr>
-              <tr>
+              {/* <tr>
                 <th
                   scope="row"
                   className="font-medium text-gray-700 whitespace-nowrap"
@@ -70,7 +79,7 @@ const KeteranganPreviewComponent = () => {
                 <td className="px-6">
                   <p className="font-medium">4 bulan</p>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>

@@ -3,56 +3,62 @@ import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/app-provider";
 import Navbar from "../components/navbar/navbar";
 import Footer from "../components/footer/footer";
+import axios from "axios";
 
 const Login = () => {
   const { users, setIsLogin, setLoggedInUser } = useContext(AppContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errorNotification, setErrorNotification] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const { roleLogin, setRoleLogin } = useContext(AppContext);
+
+  const [userLogin, setUserLogin] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onChange = (e) => {
+    setUserLogin({
+      ...userLogin,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setErrorNotification(false);
-    setLoading(true);
 
     try {
-      const response = await fetch('https://ademystapi.adaptable.app/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer your-access-token',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const { data } = await axios.post(
+        "https://ademystapi.adaptable.app/auth/login",
+        userLogin
+      );
 
-      if (response.ok) {
-        const data = await response.json();
+      if (!data.token) throw new Error("Cek kembali Email atau Password anda");
 
-        if (data.success) {
-          setIsLogin(true);
-          setLoggedInUser(data.user);
-          navigate("/dashboard");
-        } else {
-          setErrorNotification("Invalid email or password.");
-        }
-      } else {
-        setErrorNotification("Server error. Please try again later.");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setErrorNotification("An unexpected error occurred.");
-    } finally {
-      setLoading(false);
+      localStorage.setItem("token", data.token);
+      setIsLogin(true);
+      setIsError(false);
+      navigate("/");
+
+      if (
+        userLogin.email == "admin@gmail.com"
+          ? setRoleLogin("admin")
+          : setRoleLogin("user")
+      )
+        return console.log(roleLogin);
+    } catch (err) {
+      setErrorMessage(err);
+      setIsError(true);
     }
   };
+
   return (
     <>
       <Navbar />
       <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
-        <form action="" onSubmit={handleLogin} className="w-full">
+        <form action="" className="w-full">
           <div className="w-full px-4">
             <div className="mx-auto mb-12 max-w-xl text-center">
               <h2 className="mb-3 text-3xl font-bold text-[#0cb5ca] lg:text-4xl">
@@ -69,8 +75,11 @@ const Login = () => {
               <input
                 type="email"
                 id="email"
+                name="email"
                 placeholder="ademyst@example.com"
-                onChange={(e) => setEmail(e.target.value)}
+                value={userLogin.email}
+                onChange={onChange}
+                // onChange={(e) => setEmail(e.target.value)}
                 className="text-dark w-full rounded-xl bg-slate-200 p-3 focus:border-[#0cb5ca] focus:outline-none focus:ring-1 focus:ring-[#0cb5ca]"
               />
             </div>
@@ -97,8 +106,11 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
+                  name="password"
                   placeholder="********"
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={userLogin.password}
+                  onChange={onChange}
+                  // onChange={(e) => setPassword(e.target.value)}
                   className="text-dark mb-3 w-full rounded-xl bg-slate-200 p-3 focus:border-[#0cb5ca] focus:outline-none focus:ring-1 focus:ring-[#0cb5ca]"
                 />
               </div>
@@ -106,6 +118,7 @@ const Login = () => {
             <div className="w-full px-4">
               <button
                 id="login-btn"
+                onClick={handleLogin}
                 className="w-full rounded-xl bg-[#0cb5ca] py-3 px-8 text-base font-semibold text-white transition duration-500 hover:opacity-80 hover:shadow-lg"
               >
                 Masuk
@@ -124,15 +137,13 @@ const Login = () => {
               </div>
               <div
                 id="error-notification"
-                className="hidden w-full p-4 text-white bg-red-500 rounded-md mt-4"
+                className={`${
+                  isError
+                    ? "w-full p-4 text-white bg-red-500 rounded-md mt-4"
+                    : "hidden"
+                }`}
               >
-                Ada kesalahan dalam formulir. Silakan periksa lagi.
-              </div>
-              <div
-                id="success-notification"
-                className="hidden w-full p-4 text-white opacity-70 bg-green-500 rounded-md mt-4"
-              >
-                Anda Berhasil Masuk!
+                {errorMessage.message}
               </div>
             </div>
           </div>
