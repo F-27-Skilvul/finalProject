@@ -8,8 +8,8 @@ import axios from "axios";
 const Login = () => {
   const { users, setIsLogin, setLoggedInUser } = useContext(AppContext);
   const [showPassword, setShowPassword] = useState(false);
-  const [errorNotification, setErrorNotification] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const { roleLogin, setRoleLogin } = useContext(AppContext);
@@ -29,60 +29,31 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const { data } = await axios.post(
-      "https://ademystapi.adaptable.app/auth/login",
-      userLogin
-    );
+    try {
+      const { data } = await axios.post(
+        "https://ademystapi.adaptable.app/auth/login",
+        userLogin
+      );
 
-    localStorage.setItem("token", data.token);
+      if (!data.token) throw new Error("Cek kembali Email atau Password anda");
 
-    setIsLogin(true)
+      localStorage.setItem("token", data.token);
+      setIsLogin(true);
+      setIsError(false);
+      navigate("/");
 
-    navigate("/");
-
-    if (
-      userLogin.email == "admin@gmail.com"
-        ? setRoleLogin("admin")
-        : setRoleLogin("user")
-    )
-      return console.log(roleLogin);
+      if (
+        userLogin.email == "admin@gmail.com"
+          ? setRoleLogin("admin")
+          : setRoleLogin("user")
+      )
+        return console.log(roleLogin);
+    } catch (err) {
+      setErrorMessage(err);
+      setIsError(true);
+    }
   };
 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   setErrorNotification(false);
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await fetch('https://ademystapi.adaptable.app/auth/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer your-access-token',
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-
-  //       if (data.success) {
-  //         setIsLogin(true);
-  //         setLoggedInUser(data.user);
-  //         navigate("/dashboard");
-  //       } else {
-  //         setErrorNotification("Invalid email or password.");
-  //       }
-  //     } else {
-  //       setErrorNotification("Server error. Please try again later.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-  //     setErrorNotification("An unexpected error occurred.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   return (
     <>
       <Navbar />
@@ -166,15 +137,13 @@ const Login = () => {
               </div>
               <div
                 id="error-notification"
-                className="hidden w-full p-4 text-white bg-red-500 rounded-md mt-4"
+                className={`${
+                  isError
+                    ? "w-full p-4 text-white bg-red-500 rounded-md mt-4"
+                    : "hidden"
+                }`}
               >
-                Ada kesalahan dalam formulir. Silakan periksa lagi.
-              </div>
-              <div
-                id="success-notification"
-                className="hidden w-full p-4 text-white opacity-70 bg-green-500 rounded-md mt-4"
-              >
-                Anda Berhasil Masuk!
+                {errorMessage.message}
               </div>
             </div>
           </div>
