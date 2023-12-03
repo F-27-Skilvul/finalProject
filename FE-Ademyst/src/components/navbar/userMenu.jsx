@@ -4,7 +4,7 @@ import { AppContext } from "../../context/app-provider";
 import { NavLink, useNavigate } from "react-router-dom";
 
 function UserMenu() {
-  const { isLogin, setIsLogin, dropdownUser, setDropdownUser, setBacaan } = useContext(AppContext);
+  const { isLogin, setIsLogin, dropdownUser, setDropdownUser, setBacaan, setRoleLogin } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -21,6 +21,7 @@ function UserMenu() {
     setIsLogin(false);
     setDropdownUser(!dropdownUser)
     setBacaan([])
+    setRoleLogin("")
     navigate("/");
   };
 
