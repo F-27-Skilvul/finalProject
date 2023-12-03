@@ -5,6 +5,7 @@ export const AppContext = createContext();
 
 function AppProvider({ children }) {
   const [dropdownActive, setDropdownActive] = useState(true);
+  const [dropdownUser, setDropdownUser] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [bacaan, setBacaan] = useState([
     // ... your existing state initialization
@@ -34,7 +35,9 @@ function AppProvider({ children }) {
         bacaanInput,
         setBacaanInput,
         users,
-        setUsers
+        setUsers,
+        dropdownUser,
+        setDropdownUser
       }}
     >
       {children}
