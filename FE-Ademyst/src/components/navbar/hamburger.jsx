@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import DropdownMenu from "./dropdownMenu";
 import { AppContext } from "../../context/app-provider";
-import { NavLink } from "react-router-dom";
+import BtnLoginRegist from "./btn-loginRegist";
+import UserMenu from "./userMenu";
 
 function Hamburger() {
   const { dropdownActive, setDropdownActive } = useContext(AppContext);
@@ -17,25 +17,8 @@ function Hamburger() {
   return (
     <>
       <div className="flex items-center">
-        {/* btn login and register */}
-        <div className="flex flex-row">
-          <button className="p-1">
-            <NavLink
-              to="/daftar"
-              className="border-1 border-1 mb-3 rounded-xl border-primary bg-white py-3 px-6 text-base font-semibold text-black transition duration-500 hover:opacity-80 hover:shadow-lg lg:mb-0 "
-            >
-              Daftar
-            </NavLink>
-          </button>
-          <button className="p-1">
-            <NavLink
-              to="/login"
-              className="rounded-xl bg-primary py-3 px-6 text-base font-semibold text-white transition duration-500 hover:opacity-80 hover:shadow-lg"
-            >
-              Masuk
-            </NavLink>
-          </button>
-        </div>
+        <BtnLoginRegist />
+        <UserMenu />
 
         <button
           onClick={handleDropdown}
