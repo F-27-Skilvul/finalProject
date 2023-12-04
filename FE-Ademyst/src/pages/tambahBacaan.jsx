@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
 import { AppContext } from "../context/app-provider";
+import axios from "axios";
 
 function TambahBacaan({ visible, onClose }) {
   const { bacaan, setBacaan } = useContext(AppContext);
   const { bacaanInput, setBacaanInput } = useContext(AppContext);
   const { showModal, setShowModal } = useContext(AppContext);
+  
+  const token = localStorage.getItem("token");
 
   if (!visible) return null;
 
@@ -15,20 +18,40 @@ function TambahBacaan({ visible, onClose }) {
     });
   };
 
-  const handleClick = (e) => {
-    e.preventDefault();
+  const getBacaan = async (e) => {
+    const { data } = await axios.get(
+      "https://ademystapi.adaptable.app/courses",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setBacaan(data);
+  };
+
+  const handleClick = async () => {
+    // e.preventDefault();
 
     let newBacaan = {
-      id: new Date(),
       title: bacaanInput.title,
-      desc: bacaanInput.desc,
-      imgSrc: bacaanInput.imgSrc,
+      description: bacaanInput.desc,
     };
 
-    setBacaan([...bacaan, newBacaan]);
+    const { data } = await axios.post(
+      "https://ademystapi.adaptable.app/courses",
+      newBacaan,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
+    console.log(data);
     console.log(newBacaan);
     setShowModal(false);
+    getBacaan()
   };
 
   return (
@@ -48,16 +71,6 @@ function TambahBacaan({ visible, onClose }) {
               <input
                 type="text"
                 name="title"
-                onChange={handleChange}
-                className="border border-black rounded-md w-full font-normal"
-              />
-            </div>
-            <div className="">
-              <label>Gambar Bacaan:</label>
-              <br />
-              <input
-                type="text"
-                name="imgSrc"
                 onChange={handleChange}
                 className="border border-black rounded-md w-full font-normal"
               />

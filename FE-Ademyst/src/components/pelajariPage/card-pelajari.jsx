@@ -4,24 +4,24 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 function CardPelajari() {
-  const { bacaan, setBacaan } = useContext(AppContext);
+    const { bacaan, setBacaan } = useContext(AppContext);
   const token = localStorage.getItem("token");
-
+  
   useEffect(() => {
     getBacaan();
   }, []);
 
   const getBacaan = async (e) => {
-    const { data } = await axios.get(
-      "https://ademystapi.adaptable.app/courses",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    setBacaan(data);
-  };
+     const { data } = await axios.get(
+       "https://ademystapi.adaptable.app/courses",
+       {
+         headers: {
+           Authorization: `Bearer ${token}`,
+         },
+       }
+     );
+     setBacaan(data);
+   };
 
   return (
     <div className="flex flex-wrap">
