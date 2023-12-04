@@ -10,8 +10,6 @@ const IsiListComponent = () => {
     (bacaan) => decodeURIComponent(bacaan.title).replace(/ /g, "_") === title
   );
 
-  console.log(topics);
-
   return (
     <div id="right" className="flex flex-col md:w-2/3 md:ml-4 md:mt-0 xs:mt-4">
       {topics.map((topics, index) => (
