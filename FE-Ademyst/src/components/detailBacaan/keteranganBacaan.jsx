@@ -1,21 +1,37 @@
-import React, {useContext} from "react";
+import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import IsiListComponent from "./listBacaan";
 import { AppContext } from "../../context/app-provider";
 
 const KeteranganPreviewComponent = () => {
-  const { bacaan, setBacaan } = useContext(AppContext);
+  const { bacaan, roleLogin, setShowModal, setFormData } =
+    useContext(AppContext);
   const { title } = useParams();
 
   const pilihBacaan = bacaan.find(
     (bacaan) => decodeURIComponent(bacaan.title).replace(/ /g, "_") === title
   );
 
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    console.log(pilihBacaan);
+    setFormData(pilihBacaan);
+
+    if (roleLogin === "admin") {
+      setShowModal(true);
+    }
+  };
+
   return (
     <div className="container max-w-screen-xl md:flex md:flex-row justify-start">
       <div id="left" className="flex flex-col md:w-1/3">
-        <button className="px-8 py-2 bg-primary text-white rounded-xl text-lg font-medium mb-4">
-          <i className="fa-regular fa-heart fa-xl mr-4"></i>Track Favorit
+        <button
+          onClick={handleClick}
+          className="px-8 py-2 bg-primary text-white rounded-xl text-lg font-medium mb-4"
+        >
+          {roleLogin === "admin" ? "Perbarui Bacaan" : "Track Favorit"}
+          {/* <i className="fa-regular fa-heart fa-xl mr-4"></i>Track Favorit */}
         </button>
 
         <h1 className="font-semibold text-2xl text-gray-700 pb-4">
@@ -55,7 +71,9 @@ const KeteranganPreviewComponent = () => {
                   <i className="fa-solid fa-clock"></i>
                 </th>
                 <td className="px-6">
-                  <p className="font-medium">Konten {pilihBacaan.totalTime} Jam </p>
+                  <p className="font-medium">
+                    Konten {pilihBacaan.totalTime} Jam{" "}
+                  </p>
                 </td>
               </tr>
               {/* <tr>

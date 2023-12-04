@@ -15,8 +15,8 @@ function AppProvider({ children }) {
   const [bacaanInput, setBacaanInput] = useState({
     title: "",
     desc: "",
-    imgSrc: "",
   });
+  const [formData, setFormData] = useState({});
 
   return (
     <AppContext.Provider
@@ -34,7 +34,9 @@ function AppProvider({ children }) {
         bacaanInput,
         setBacaanInput,
         dropdownUser,
-        setDropdownUser
+        setDropdownUser,
+        formData,
+        setFormData,
       }}
     >
       {children}
