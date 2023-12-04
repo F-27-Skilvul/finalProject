@@ -17,7 +17,6 @@ function AppProvider({ children }) {
     desc: "",
     imgSrc: "",
   });
-  const [users, setUsers] = useState([]);
 
   return (
     <AppContext.Provider
@@ -34,8 +33,6 @@ function AppProvider({ children }) {
         setShowModal,
         bacaanInput,
         setBacaanInput,
-        users,
-        setUsers,
         dropdownUser,
         setDropdownUser
       }}

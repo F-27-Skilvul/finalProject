@@ -1,43 +1,49 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
-import { AppContext } from "../context/app-provider";
+import React, { useState } from "react";
 import Navbar from "../components/navbar/navbar";
 import Footer from "../components/footer/footer";
+import axios from "axios";
 
 const Register = () => {
-  const { addUser } = useContext(AppContext); // Gunakan addUser dari UserContext
   const [userData, setUserData] = useState({
     email: "",
     password: "",
     name: "",
+    alamat: "",
   });
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(""); // State untuk pesan error
+  const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    // Validasi
-    if (!userData.name || !userData.email || !userData.password) {
-      setError("Please fill in all fields.");
-      return;
+    setIsError(false)
+    setIsSuccess(false)
+
+    try {
+      const { data } = await axios.post(
+        "https://ademystapi.adaptable.app/auth/regis",
+        userData
+      );
+
+      console.log(data.message);
+
+      if (data.message == "Email already registered") {
+        setIsError(true);
+        throw new Error("Akun anda sudah terdaftar")
+      } if (data.message == "berhasil regis") {
+        setIsSuccess(true);
+        throw new Error("Akun anda berhasil dibuat")
+      }
+    } catch (err) {
+      setErrorMessage(err);
     }
-    // Tambahkan pengguna ke context
-    console.log(userData);
-    addUser({
-      name: userData.name,
-      email: userData.email,
-      password: userData.password,
-    });
-    // Bersihkan form
-    setUserData({ email: "", password: "", confirmPassword: "", name: "" });
-    setSuccess(true);
-    setError(""); // Bersihkan error
   };
+
   return (
     <>
       <Navbar />
-      <section className="mt-12 bg-white py-24">
+      <section className="bg-gray-100 py-7">
         <div className="">
           <div className="w-full px-4">
             <div className="mx-auto mb-12 max-w-xl text-center">
@@ -100,7 +106,7 @@ const Register = () => {
                     onChange={(e) =>
                       setUserData({ ...userData, password: e.target.value })
                     }
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     placeholder="********"
                     className="text-dark mb-3 w-full rounded-xl bg-slate-200 p-3 focus:border-[#0cb5ca] focus:outline-none focus:ring-1 focus:ring-[#0cb5ca]"
@@ -129,17 +135,25 @@ const Register = () => {
           </div>
           <div
             id="error-notification"
-            className="hidden w-full p-4 text-white bg-red-500 rounded-md mt-4"
+            className={`${
+              isError
+                ? "w-full p-4 text-white bg-red-500 rounded-md mt-4"
+                : "hidden"
+            } `}
           >
-            Ada kesalahan dalam formulir. Silakan periksa lagi.
+            {errorMessage.message}
+            {/* Ada kesalahan dalam formulir. Silakan periksa lagi. */}
           </div>
           <div
             id="success-notification"
             className={`${
-              !success && "hidden"
-            } w-full p-4 text-white opacity-70 bg-green-500 rounded-md mt-4`}
+              isSuccess
+                ? "w-full p-4 text-white opacity-70 bg-green-500 rounded-md mt-4"
+                : "hidden"
+            } `}
           >
-            Akun Anda berhasil dibuat!
+            {errorMessage.message}
+            {/* Akun Anda berhasil dibuat! */}
           </div>
         </div>
       </section>
