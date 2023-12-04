@@ -12,8 +12,8 @@ function HeaderPreviewComponent() {
 
   return (
     <div className="container max-w-screen-xl pt-4 text-center items-center pb-4 flex flex-col md:flex-row md:text-start">
-      <img src={pilihBacaan.imgSrc} className="max-w-xs justify-center" />
-      <div>
+      <img src={`https://ademystapi.adaptable.app/images/${pilihBacaan.image}`} className="max-w-xs justify-center" />
+      <div className="ml-4">
         <h2 className="text-4xl font-extrabold text-primary">
           {pilihBacaan.title}
         </h2>
