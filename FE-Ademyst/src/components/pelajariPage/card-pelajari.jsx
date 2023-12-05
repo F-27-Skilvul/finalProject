@@ -31,7 +31,7 @@ function CardPelajari() {
             <div className="rounded-t-lg mx-auto max-w-xs p-2">
               <NavLink to={decodeURIComponent(bacaan.title).replace(/ /g, "_")}>
                 {/* untuk menghasilkan url tanpa spasi dari tittle bacaan */}
-                <img className="w-full" src={`https://ademystapi.adaptable.app/images/${bacaan.image}`} alt="" />
+                <img className="max-h-48 mx-auto" src={`https://ademystapi.adaptable.app/images/${bacaan.image}`} alt="" />
               </NavLink>
             </div>
             <div className="p-5">
