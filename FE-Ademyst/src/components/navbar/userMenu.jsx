@@ -1,12 +1,25 @@
-import React, { useContext } from "react";
-import Profile from "../../assets/surya.jpg";
+import React, { useContext, useEffect } from "react";
+// import Profile from "../../assets/surya.jpg";
 import { AppContext } from "../../context/app-provider";
 import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function UserMenu() {
-  const { isLogin, setIsLogin, dropdownUser, setDropdownUser, setBacaan, setRoleLogin } = useContext(AppContext);
+  const {
+    isLogin,
+    setIsLogin,
+    dropdownUser,
+    setDropdownUser,
+    setBacaan,
+    setRoleLogin,
+  } = useContext(AppContext);
 
   const navigate = useNavigate();
+
+  const username = localStorage.getItem("username");
+  const email = localStorage.getItem("email");
+
+  const profilUrl = `https://ui-avatars.com/api/?name=${username}&background=random `;
 
   const handleDropdown = (e) => {
     e.preventDefault();
@@ -18,10 +31,12 @@ function UserMenu() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
     setIsLogin(false);
-    setDropdownUser(!dropdownUser)
-    setBacaan([])
-    setRoleLogin("")
+    setDropdownUser(!dropdownUser);
+    setBacaan([]);
+    setRoleLogin("");
     navigate("/");
   };
 
@@ -44,7 +59,7 @@ function UserMenu() {
           <span className="sr-only">Open user menu</span>
           <img
             className="w-10 h-10 rounded-full"
-            src={Profile}
+            src={profilUrl}
             id="user-photo"
             alt="user photo"
           />
@@ -59,8 +74,8 @@ function UserMenu() {
           }`}
         >
           <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-            <div className="font-medium">Surya Oktova Pramudya</div>
-            <div className="truncate text-gray-200">surya@gmail.com</div>
+            <div className="font-medium">{username}</div>
+            <div className="truncate text-gray-200">{email}</div>
           </div>
           <ul
             className="py-2 text-sm text-gray-700 dark:text-gray-200"

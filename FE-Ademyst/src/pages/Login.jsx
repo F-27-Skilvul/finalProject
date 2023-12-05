@@ -1,18 +1,16 @@
 import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/app-provider";
 import Navbar from "../components/navbar/navbar";
 import Footer from "../components/footer/footer";
 import axios from "axios";
 
 const Login = () => {
-  const { users, setIsLogin, setLoggedInUser } = useContext(AppContext);
+  const { setIsLogin, roleLogin, setRoleLogin } = useContext(AppContext);
   const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
-  const { roleLogin, setRoleLogin } = useContext(AppContext);
 
   const [userLogin, setUserLogin] = useState({
     email: "",
@@ -34,6 +32,15 @@ const Login = () => {
         "https://ademystapi.adaptable.app/auth/login",
         userLogin
       );
+      console.log(data.user);
+
+      if (userLogin.email != "admin@gmail.com") {
+        localStorage.setItem("email", data.user.email);
+        localStorage.setItem("username", data.user.name);
+      } else {
+        localStorage.setItem("email", "admin@gmail.com");
+        localStorage.setItem("username", "admin");
+      }
 
       if (!data.token) throw new Error("Cek kembali Email atau Password anda");
 
@@ -42,11 +49,7 @@ const Login = () => {
       setIsError(false);
       navigate("/");
 
-      if (
-        userLogin.email == "admin@gmail.com"
-          ? setRoleLogin("admin")
-          : setRoleLogin("user")
-      )
+      if (data.admin ? setRoleLogin("admin") : setRoleLogin("user"))
         return console.log(roleLogin);
     } catch (err) {
       setErrorMessage(err);

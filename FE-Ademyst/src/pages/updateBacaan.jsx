@@ -1,20 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../context/app-provider";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
-function TambahBacaan({ visible, onClose }) {
-  const { bacaan, setBacaan } = useContext(AppContext);
-  const { bacaanInput, setBacaanInput } = useContext(AppContext);
-  const { showModal, setShowModal } = useContext(AppContext);
-  
+function UpdateBacaan({ visible, onClose }) {
+  const { formData, setFormData, setBacaan, setShowModal } =
+    useContext(AppContext);
+  const { title } = useParams();
+
   const token = localStorage.getItem("token");
 
   if (!visible) return null;
 
-  const handleChange = (e) => {
+  const onChange = (e) => {
     const { name, value } = e.target;
-    setBacaanInput((prev) => {
-      return { ...prev, [name]: value };
+    setFormData({
+      ...formData,
+      [name]: value,
     });
   };
 
@@ -30,17 +32,12 @@ function TambahBacaan({ visible, onClose }) {
     setBacaan(data);
   };
 
-  const handleClick = async () => {
-    // e.preventDefault();
+  const handleClick = async (e) => {
+    e.preventDefault();
 
-    let newBacaan = {
-      title: bacaanInput.title,
-      description: bacaanInput.desc,
-    };
-
-    const { data } = await axios.post(
-      "https://ademystapi.adaptable.app/courses",
-      newBacaan,
+    const { data } = await axios.put(
+      `https://ademystapi.adaptable.app/courses/${formData.id}`,
+      formData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -48,10 +45,9 @@ function TambahBacaan({ visible, onClose }) {
       }
     );
 
-    console.log(data);
-    console.log(newBacaan);
     setShowModal(false);
-    getBacaan()
+    console.log(data);
+    getBacaan();
   };
 
   return (
@@ -59,7 +55,7 @@ function TambahBacaan({ visible, onClose }) {
       <div className="fixed inset-0 z-50 bg-black bg-opacity-30 backdrop-blur-md flex justify-center items-center">
         <div className="bg-slate-100 flex flex-col pb-4 rounded-md w-80">
           <div className="bg-dark flex justify-between mb-4 p-2 rounded-t-md">
-            <p className="font-bold text-primary">Tambah Bacaan</p>
+            <p className="font-bold text-primary">Perbarui Bacaan</p>
             <button onClick={onClose} className="font-bold text-red-500">
               X
             </button>
@@ -71,7 +67,8 @@ function TambahBacaan({ visible, onClose }) {
               <input
                 type="text"
                 name="title"
-                onChange={handleChange}
+                value={formData.title}
+                onChange={onChange}
                 className="border border-black rounded-md w-full font-normal"
               />
             </div>
@@ -80,8 +77,9 @@ function TambahBacaan({ visible, onClose }) {
               <br />
               <textarea
                 type="text"
-                name="desc"
-                onChange={handleChange}
+                name="description"
+                value={formData.description}
+                onChange={onChange}
                 className="border border-black rounded-md w-full h-52 font-normal"
               />
             </div>
@@ -90,7 +88,7 @@ function TambahBacaan({ visible, onClose }) {
             onClick={handleClick}
             className="bg-primary mx-4 mt-3 py-1 px-3 rounded-md border-2 border-secondary text-white font-bold"
           >
-            Tambah
+            Perbarui Bacaan
           </button>
         </div>
       </div>
@@ -98,4 +96,4 @@ function TambahBacaan({ visible, onClose }) {
   );
 }
 
-export default TambahBacaan;
+export default UpdateBacaan;
