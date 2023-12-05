@@ -2,24 +2,54 @@ import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import IsiListComponent from "./listBacaan";
 import { AppContext } from "../../context/app-provider";
+import axios from "axios";
 
 const KeteranganPreviewComponent = () => {
-  const { bacaan, roleLogin, setShowModal, setFormData } =
-    useContext(AppContext);
+  const {
+    bacaan,
+    roleLogin,
+    setShowModal,
+    setFormData,
+    idBacaan,
+    setIdBacaan,
+    showMessage,
+    setShowMessage,
+  } = useContext(AppContext);
   const { title } = useParams();
+  const token = localStorage.getItem("token");
 
   const pilihBacaan = bacaan.find(
     (bacaan) => decodeURIComponent(bacaan.title).replace(/ /g, "_") === title
   );
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
 
-    console.log(pilihBacaan);
-    setFormData(pilihBacaan);
-
-    if (roleLogin === "admin") {
+    if (roleLogin == "admin") {
+      setFormData(pilihBacaan);
       setShowModal(true);
+    } else {
+      setIdBacaan(pilihBacaan.id);
+      console.log(pilihBacaan.id)
+      try {
+        const { data } = await axios.post(
+          "https://ademystapi.adaptable.app/followCourse",
+          {
+            courseId: pilihBacaan.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(data);
+        // if(data.message)
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        setShowMessage(true);
+      }
     }
   };
 

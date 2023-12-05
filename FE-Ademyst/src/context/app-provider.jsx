@@ -17,6 +17,8 @@ function AppProvider({ children }) {
     desc: "",
   });
   const [formData, setFormData] = useState({});
+  const [idBacaan, setIdBacaan] = useState("")
+  const [showMessage, setShowMessage] = useState(false)
 
   return (
     <AppContext.Provider
@@ -37,6 +39,10 @@ function AppProvider({ children }) {
         setDropdownUser,
         formData,
         setFormData,
+        idBacaan,
+        setIdBacaan,
+        showMessage,
+        setShowMessage,
       }}
     >
       {children}
